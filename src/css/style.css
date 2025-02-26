@@ -1,0 +1,337 @@
+@import "./nullstyle.css";
+
+:root {
+  --tile-mine: #cc2f2f;
+  --tile-hidden: #999;
+  --tile-marked: #e6e244;
+  --tile-number: #666;
+
+  --tile-mine-light: #b91717;
+  --tile-hidden-light: #63618d;
+  --tile-marked-light: #ffa500;
+  --tile-number-light: #4f4e6f;
+
+  --mines-1: #0000ff;
+  --mines-2: #00ff00;
+  --mines-3: #ff0000;
+  --mines-4: #800080;
+  --mines-5: #ffa500;
+  --mines-6: #00ffff;
+  --mines-7: #ff00ff;
+  --mines-8: #808080;
+
+  --transition: all 0.3s ease;
+  --info: #ccc;
+
+  --dark: #333;
+  --light: #e5e5e5;
+}
+
+body {
+  margin: 0;
+  background-color: var(--dark);
+  display: flex;
+  align-items: center;
+  font-size: 3rem;
+  flex-direction: column;
+  color: white;
+}
+
+body.light {
+  background-color: var(--light);
+  color: var(--dark);
+}
+
+body.light .board {
+  background-color: var(--tile-number-light);
+}
+
+body.light .counters {
+  color: var(--dark);
+}
+
+body.light .board > [data-status="hidden"] {
+  background-color: var(--tile-hidden-light);
+  cursor: pointer;
+}
+
+body.light .board > [data-status="marked"] {
+  background: url("../assets/flag.ico") center/cover no-repeat, var(--tile-marked-light);
+}
+
+body.light .board > [data-status="mine"] {
+  background: url("../assets/bomb.svg") center/cover no-repeat, var(--tile-mine-light);
+}
+
+body.dark {
+  background-color: var(--dark);
+}
+
+.title {
+  margin: 20px;
+}
+
+.counters {
+  color: var(--info);
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  display: flex;
+  column-gap: 20px;
+}
+
+.board {
+  display: inline-grid;
+  padding: 10px;
+  grid-template-columns: repeat(var(--size), 28px);
+  grid-template-rows: repeat(var(--size), 28px);
+  background-color: var(--tile-number);
+  gap: 4px;
+}
+
+.board.easy {
+  grid-template-columns: repeat(var(--size), 60px);
+  grid-template-rows: repeat(var(--size), 60px);
+}
+
+.board.medium {
+  grid-template-columns: repeat(var(--size), 45px);
+  grid-template-rows: repeat(var(--size), 45px);
+  font-size: 2rem;
+}
+
+.board.hard {
+  grid-template-columns: repeat(var(--size), 28px);
+  grid-template-rows: repeat(var(--size), 28px);
+  font-size: 1.5rem;
+}
+
+.board > * {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border: 2px solid var(--tile-hidden);
+  user-select: none;
+}
+
+.board > [data-status="number"] {
+  background-color: none;
+}
+
+.board > [data-status="hidden"] {
+  background-color: var(--tile-hidden);
+  cursor: pointer;
+}
+
+.board > [data-status="mine"] {
+  background: url("../assets/bomb.svg") center/cover no-repeat, var(--tile-mine);
+}
+
+.board > [data-status="marked"] {
+  background: url("../assets/flag.ico") center/cover no-repeat, var(--tile-marked);
+}
+
+.board > [data-status="marked-wrong"] {
+  background: var(--tile-marked);
+}
+
+.buttons {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.restart-button,
+.score-button,
+.complexity-button,
+.theme-button,
+.sounds-button {
+  font-size: 16px;
+  padding: 0px 15px;
+  border-radius: 5px;
+  color: white;
+  background: var(--tile-hidden);
+  transition: var(--transition);
+  position: relative;
+  font-weight: 500;
+  height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.restart-button:active,
+.score-button:active,
+.complexity-button:active,
+.theme-button:active,
+.sounds-button:active {
+  transition: var(--transition);
+  top: 2px;
+}
+
+.restart-button:hover,
+.score-button:hover,
+.complexity-button:hover,
+.theme-button:hover,
+.sounds-button:hover {
+  transition: var(--transition);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+.moves,
+.timer {
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.score-table {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 10px;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.score-table.active {
+  display: flex;
+}
+
+.info {
+  display: flex;
+  column-gap: 10px;
+}
+
+.mines-1 {
+  color: var(--mines-1);
+}
+.mines-2 {
+  color: var(--mines-2);
+}
+.mines-3 {
+  color: var(--mines-3);
+}
+.mines-4 {
+  color: var(--mines-4);
+}
+.mines-5 {
+  color: var(--mines-5);
+}
+.mines-6 {
+  color: var(--mines-6);
+}
+.mines-7 {
+  color: var(--mines-7);
+}
+.mines-8 {
+  color: var(--mines-8);
+}
+
+@media (max-width: 830px) {
+  .board.hard {
+    grid-template-columns: repeat(var(--size), 22px);
+    grid-template-rows: repeat(var(--size), 22px);
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 2rem;
+  }
+
+  .board.easy {
+    grid-template-columns: repeat(var(--size), 40px);
+    grid-template-rows: repeat(var(--size), 40px);
+  }
+
+  .board.medium {
+    grid-template-columns: repeat(var(--size), 30px);
+    grid-template-rows: repeat(var(--size), 30px);
+    font-size: 1.4rem;
+  }
+
+  .counters,
+  .timer,
+  .moves {
+    font-size: 1rem;
+  }
+
+  .restart-button,
+  .score-button,
+  .complexity-button,
+  .theme-button {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+}
+
+.result {
+  display: grid;
+  grid-template-columns: 1fr 100px 100px;
+  column-gap: 25px;
+}
+
+@media (max-width: 700px) {
+  .board.hard {
+    grid-template-columns: repeat(var(--size), 13px);
+    grid-template-rows: repeat(var(--size), 13px);
+    font-size: 0.8rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    row-gap: 10px;
+  }
+
+  .buttons > * {
+    width: 155px;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 550px) {
+  .board.medium {
+    grid-template-columns: repeat(var(--size), 25px);
+    grid-template-rows: repeat(var(--size), 25px);
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 1.5rem;
+  }
+
+  .buttons > * {
+    height: 26px;
+    font-size: 16px;
+  }
+
+  .board.easy {
+    grid-template-columns: repeat(var(--size), 25px);
+    grid-template-rows: repeat(var(--size), 25px);
+  }
+
+  .board.medium {
+    grid-template-columns: repeat(var(--size), 16px);
+    grid-template-rows: repeat(var(--size), 16px);
+    font-size: 1rem;
+  }
+
+  .board.hard {
+    grid-template-columns: repeat(var(--size), 8px);
+    grid-template-rows: repeat(var(--size), 8px);
+    font-size: 0.8rem;
+  }
+
+  .result {
+    column-gap: 10px;
+    font-size: 14px;
+    grid-template-columns: 1fr 80px 100px;
+  }
+}
